@@ -1,0 +1,66 @@
+Performing C SOURCE FILE Test C_WCOMMENT_ALLOWS_LINE_WRAP failed with the following output:
+Change Dir: /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_b4dbd/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_b4dbd.dir/build.make CMakeFiles/cmTC_b4dbd.dir/build
+gmake[1]: Entering directory '/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b4dbd.dir/src.c.o
+/usr/bin/cc -DC_WCOMMENT_ALLOWS_LINE_WRAP  -fPIC -fno-semantic-interposition -Werror=date-time -fno-lifetime-dse -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-initializers -Wimplicit-fallthrough  -Werror -Wcomment -o CMakeFiles/cmTC_b4dbd.dir/src.c.o -c /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp/src.c
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp/src.c:1:1: error: multi-line comment [-Werror=comment]
+    1 | // \
+      | ^
+cc1: all warnings being treated as errors
+gmake[1]: *** [CMakeFiles/cmTC_b4dbd.dir/build.make:78: CMakeFiles/cmTC_b4dbd.dir/src.c.o] Error 1
+gmake[1]: Leaving directory '/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_b4dbd/fast] Error 2
+
+
+Source file was:
+// \
+//
+int main(void) {return 0;}
+Performing C SOURCE FILE Test C_SUPPORTS_CTAD_MAYBE_UNSPPORTED_FLAG failed with the following output:
+Change Dir: /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_7a4a0/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_7a4a0.dir/build.make CMakeFiles/cmTC_7a4a0.dir/build
+gmake[1]: Entering directory '/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7a4a0.dir/src.c.o
+/usr/bin/cc -DC_SUPPORTS_CTAD_MAYBE_UNSPPORTED_FLAG  -fPIC -fno-semantic-interposition -Werror=date-time -fno-lifetime-dse -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-initializers -Wimplicit-fallthrough -Wno-comment    -Werror -Wctad-maybe-unsupported -o CMakeFiles/cmTC_7a4a0.dir/src.c.o -c /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp/src.c
+cc1: error: command-line option '-Wctad-maybe-unsupported' is valid for C++/ObjC++ but not for C [-Werror]
+cc1: all warnings being treated as errors
+gmake[1]: *** [CMakeFiles/cmTC_7a4a0.dir/build.make:78: CMakeFiles/cmTC_7a4a0.dir/src.c.o] Error 1
+gmake[1]: Leaving directory '/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_7a4a0/fast] Error 2
+
+
+Source file was:
+int main(void) { return 0; }
+Determining if the os_signpost_interval_begin exist failed with the following output:
+Change Dir: /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_0b5ac/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_0b5ac.dir/build.make CMakeFiles/cmTC_0b5ac.dir/build
+gmake[1]: Entering directory '/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0b5ac.dir/CheckSymbolExists.c.o
+/usr/bin/cc   -fPIC -fno-semantic-interposition -fno-lifetime-dse -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-initializers -Wimplicit-fallthrough -Wno-comment -ffunction-sections -fdata-sections  -o CMakeFiles/cmTC_0b5ac.dir/CheckSymbolExists.c.o -c /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:2:10: fatal error: os/signpost.h: No such file or directory
+    2 | #include <os/signpost.h>
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.
+gmake[1]: *** [CMakeFiles/cmTC_0b5ac.dir/build.make:78: CMakeFiles/cmTC_0b5ac.dir/CheckSymbolExists.c.o] Error 1
+gmake[1]: Leaving directory '/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_0b5ac/fast] Error 2
+
+
+File /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <os/signpost.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef os_signpost_interval_begin
+  return ((int*)(&os_signpost_interval_begin))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}

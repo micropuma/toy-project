@@ -1,0 +1,13 @@
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/intrinsics_gen.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/omp_gen.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/acc_gen.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/ARMTargetParserTableGen.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/AArch64TargetParserTableGen.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/RISCVTargetParserTableGen.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/mlir-tablegen-targets.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/mlir-headers.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/mlir-generic-headers.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/mlir-doc.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/mlir-toy.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/edit_cache.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/rebuild_cache.dir
