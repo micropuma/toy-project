@@ -47,10 +47,20 @@ source ~/.bashrc
 持久化更改，方便调用install下的bin里面的mlir-opt等程序。  
 
 ## mlir tutorial
+### mlir dump
+> bash build.sh  
+bash dump.sh
+
+### mlir gen
+> bash build.sh  
+bash gen.sh
+
+### play with mlir-opt
+
 
 
 ## mlir toy项目
 
 
 ## References
-1. https://github.com/KEKE046/mlir-tutorial
+1. https://github.com/KEKE046/mlir-tutorial(mlir tutorial部分重点参考此文档)
