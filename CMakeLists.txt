@@ -37,9 +37,21 @@ message(STATUS "MLIR include directories: ${MLIR_INCLUDE_DIRS}")
 add_executable(mlir-dump dump.cpp)
 set_target_properties(mlir-dump PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+# gen mlir表示
+add_executable(mlir-gen gen.cpp)
+set_target_properties(mlir-gen PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 # 链接 LLVM 和 MLIR 库
 target_link_libraries(
     mlir-dump
+    MLIRIR
+    MLIRParser
+    MLIRFuncDialect
+    MLIRArithDialect
+)
+
+target_link_libraries(
+    mlir-gen
     MLIRIR
     MLIRParser
     MLIRFuncDialect

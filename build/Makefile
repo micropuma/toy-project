@@ -259,6 +259,19 @@ mlir-dump/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-dump.dir/build.make CMakeFiles/mlir-dump.dir/build
 .PHONY : mlir-dump/fast
 
+#=============================================================================
+# Target rules for targets named mlir-gen
+
+# Build rule for target.
+mlir-gen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mlir-gen
+.PHONY : mlir-gen
+
+# fast build rule for target.
+mlir-gen/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-gen.dir/build.make CMakeFiles/mlir-gen.dir/build
+.PHONY : mlir-gen/fast
+
 dump.o: dump.cpp.o
 .PHONY : dump.o
 
@@ -283,6 +296,30 @@ dump.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-dump.dir/build.make CMakeFiles/mlir-dump.dir/dump.cpp.s
 .PHONY : dump.cpp.s
 
+gen.o: gen.cpp.o
+.PHONY : gen.o
+
+# target to build an object file
+gen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-gen.dir/build.make CMakeFiles/mlir-gen.dir/gen.cpp.o
+.PHONY : gen.cpp.o
+
+gen.i: gen.cpp.i
+.PHONY : gen.i
+
+# target to preprocess a source file
+gen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-gen.dir/build.make CMakeFiles/mlir-gen.dir/gen.cpp.i
+.PHONY : gen.cpp.i
+
+gen.s: gen.cpp.s
+.PHONY : gen.s
+
+# target to generate assembly for a file
+gen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-gen.dir/build.make CMakeFiles/mlir-gen.dir/gen.cpp.s
+.PHONY : gen.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -302,9 +339,13 @@ help:
 	@echo "... mlir-tablegen-targets"
 	@echo "... omp_gen"
 	@echo "... mlir-dump"
+	@echo "... mlir-gen"
 	@echo "... dump.o"
 	@echo "... dump.i"
 	@echo "... dump.s"
+	@echo "... gen.o"
+	@echo "... gen.i"
+	@echo "... gen.s"
 .PHONY : help
 
 
