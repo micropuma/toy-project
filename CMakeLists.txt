@@ -61,3 +61,6 @@ target_link_libraries(
 # 输出目标信息
 message(STATUS "Executable target: mlir-toy")
 message(STATUS "Source files for mlir-toy: main.cpp")
+
+add_subdirectory(toy)
+

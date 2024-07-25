@@ -31,6 +31,10 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.22.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.22.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.22.1/CMakeSystem.cmake"
+  "../toy/CMakeLists.txt"
+  "../toy/include/toy/CMakeLists.txt"
+  "../toy/lib/CMakeLists.txt"
+  "../toy/tools/toy-opt/CMakeLists.txt"
   "/usr/share/cmake-3.22/Modules/AddFileDependencies.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake"
@@ -78,6 +82,10 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "toy/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "toy/include/toy/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "toy/lib/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "toy/tools/toy-opt/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -94,4 +102,10 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/mlir-doc.dir/DependInfo.cmake"
   "CMakeFiles/mlir-dump.dir/DependInfo.cmake"
   "CMakeFiles/mlir-gen.dir/DependInfo.cmake"
+  "toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/DependInfo.cmake"
+  "toy/lib/CMakeFiles/obj.Toy.dir/DependInfo.cmake"
+  "toy/lib/CMakeFiles/Toy.dir/DependInfo.cmake"
+  "toy/lib/CMakeFiles/install-Toy.dir/DependInfo.cmake"
+  "toy/lib/CMakeFiles/install-Toy-stripped.dir/DependInfo.cmake"
+  "toy/tools/toy-opt/CMakeFiles/toy-opt.dir/DependInfo.cmake"
   )

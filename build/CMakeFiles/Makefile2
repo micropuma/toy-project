@@ -65,10 +65,11 @@ CMAKE_BINARY_DIR = /home/leon/tutorial/mlir-tutorial/mlir-toy/build
 # The main recursive "all" target.
 all: CMakeFiles/mlir-dump.dir/all
 all: CMakeFiles/mlir-gen.dir/all
+all: toy/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: toy/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
@@ -84,7 +85,77 @@ clean: CMakeFiles/mlir-generic-headers.dir/clean
 clean: CMakeFiles/mlir-doc.dir/clean
 clean: CMakeFiles/mlir-dump.dir/clean
 clean: CMakeFiles/mlir-gen.dir/clean
+clean: toy/clean
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory toy
+
+# Recursive "all" directory target.
+toy/all: toy/include/toy/all
+toy/all: toy/lib/all
+toy/all: toy/tools/toy-opt/all
+.PHONY : toy/all
+
+# Recursive "preinstall" directory target.
+toy/preinstall: toy/include/toy/preinstall
+toy/preinstall: toy/lib/preinstall
+toy/preinstall: toy/tools/toy-opt/preinstall
+.PHONY : toy/preinstall
+
+# Recursive "clean" directory target.
+toy/clean: toy/include/toy/clean
+toy/clean: toy/lib/clean
+toy/clean: toy/tools/toy-opt/clean
+.PHONY : toy/clean
+
+#=============================================================================
+# Directory level rules for directory toy/include/toy
+
+# Recursive "all" directory target.
+toy/include/toy/all:
+.PHONY : toy/include/toy/all
+
+# Recursive "preinstall" directory target.
+toy/include/toy/preinstall:
+.PHONY : toy/include/toy/preinstall
+
+# Recursive "clean" directory target.
+toy/include/toy/clean: toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/clean
+.PHONY : toy/include/toy/clean
+
+#=============================================================================
+# Directory level rules for directory toy/lib
+
+# Recursive "all" directory target.
+toy/lib/all: toy/lib/CMakeFiles/Toy.dir/all
+.PHONY : toy/lib/all
+
+# Recursive "preinstall" directory target.
+toy/lib/preinstall:
+.PHONY : toy/lib/preinstall
+
+# Recursive "clean" directory target.
+toy/lib/clean: toy/lib/CMakeFiles/obj.Toy.dir/clean
+toy/lib/clean: toy/lib/CMakeFiles/Toy.dir/clean
+toy/lib/clean: toy/lib/CMakeFiles/install-Toy.dir/clean
+toy/lib/clean: toy/lib/CMakeFiles/install-Toy-stripped.dir/clean
+.PHONY : toy/lib/clean
+
+#=============================================================================
+# Directory level rules for directory toy/tools/toy-opt
+
+# Recursive "all" directory target.
+toy/tools/toy-opt/all: toy/tools/toy-opt/CMakeFiles/toy-opt.dir/all
+.PHONY : toy/tools/toy-opt/all
+
+# Recursive "preinstall" directory target.
+toy/tools/toy-opt/preinstall:
+.PHONY : toy/tools/toy-opt/preinstall
+
+# Recursive "clean" directory target.
+toy/tools/toy-opt/clean: toy/tools/toy-opt/CMakeFiles/toy-opt.dir/clean
+.PHONY : toy/tools/toy-opt/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/intrinsics_gen.dir
@@ -272,7 +343,7 @@ CMakeFiles/mlir-tablegen-targets.dir/clean:
 # Target rules for target CMakeFiles/mlir-headers.dir
 
 # All Build rule for target.
-CMakeFiles/mlir-headers.dir/all:
+CMakeFiles/mlir-headers.dir/all: toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-headers.dir/build.make CMakeFiles/mlir-headers.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-headers.dir/build.make CMakeFiles/mlir-headers.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num= "Built target mlir-headers"
@@ -280,7 +351,7 @@ CMakeFiles/mlir-headers.dir/all:
 
 # Build rule for subdir invocation for target.
 CMakeFiles/mlir-headers.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mlir-headers.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 0
 .PHONY : CMakeFiles/mlir-headers.dir/rule
@@ -353,7 +424,7 @@ CMakeFiles/mlir-doc.dir/clean:
 CMakeFiles/mlir-dump.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-dump.dir/build.make CMakeFiles/mlir-dump.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-dump.dir/build.make CMakeFiles/mlir-dump.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num=1,2 "Built target mlir-dump"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num=8,9 "Built target mlir-dump"
 .PHONY : CMakeFiles/mlir-dump.dir/all
 
 # Build rule for subdir invocation for target.
@@ -379,7 +450,7 @@ CMakeFiles/mlir-dump.dir/clean:
 CMakeFiles/mlir-gen.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-gen.dir/build.make CMakeFiles/mlir-gen.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-gen.dir/build.make CMakeFiles/mlir-gen.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num=3,4 "Built target mlir-gen"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num=10,11 "Built target mlir-gen"
 .PHONY : CMakeFiles/mlir-gen.dir/all
 
 # Build rule for subdir invocation for target.
@@ -397,6 +468,165 @@ mlir-gen: CMakeFiles/mlir-gen.dir/rule
 CMakeFiles/mlir-gen.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-gen.dir/build.make CMakeFiles/mlir-gen.dir/clean
 .PHONY : CMakeFiles/mlir-gen.dir/clean
+
+#=============================================================================
+# Target rules for target toy/include/toy/CMakeFiles/MLIRToyIncGen.dir
+
+# All Build rule for target.
+toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/all:
+	$(MAKE) $(MAKESILENT) -f toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/build.make toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/depend
+	$(MAKE) $(MAKESILENT) -f toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/build.make toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target MLIRToyIncGen"
+.PHONY : toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/all
+
+# Build rule for subdir invocation for target.
+toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 0
+.PHONY : toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/rule
+
+# Convenience name for target.
+MLIRToyIncGen: toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/rule
+.PHONY : MLIRToyIncGen
+
+# clean rule for target.
+toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/clean:
+	$(MAKE) $(MAKESILENT) -f toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/build.make toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/clean
+.PHONY : toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/clean
+
+#=============================================================================
+# Target rules for target toy/lib/CMakeFiles/obj.Toy.dir
+
+# All Build rule for target.
+toy/lib/CMakeFiles/obj.Toy.dir/all: CMakeFiles/mlir-generic-headers.dir/all
+toy/lib/CMakeFiles/obj.Toy.dir/all: toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/all
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/obj.Toy.dir/build.make toy/lib/CMakeFiles/obj.Toy.dir/depend
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/obj.Toy.dir/build.make toy/lib/CMakeFiles/obj.Toy.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num=12 "Built target obj.Toy"
+.PHONY : toy/lib/CMakeFiles/obj.Toy.dir/all
+
+# Build rule for subdir invocation for target.
+toy/lib/CMakeFiles/obj.Toy.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 7
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 toy/lib/CMakeFiles/obj.Toy.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 0
+.PHONY : toy/lib/CMakeFiles/obj.Toy.dir/rule
+
+# Convenience name for target.
+obj.Toy: toy/lib/CMakeFiles/obj.Toy.dir/rule
+.PHONY : obj.Toy
+
+# clean rule for target.
+toy/lib/CMakeFiles/obj.Toy.dir/clean:
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/obj.Toy.dir/build.make toy/lib/CMakeFiles/obj.Toy.dir/clean
+.PHONY : toy/lib/CMakeFiles/obj.Toy.dir/clean
+
+#=============================================================================
+# Target rules for target toy/lib/CMakeFiles/Toy.dir
+
+# All Build rule for target.
+toy/lib/CMakeFiles/Toy.dir/all: CMakeFiles/mlir-generic-headers.dir/all
+toy/lib/CMakeFiles/Toy.dir/all: toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/all
+toy/lib/CMakeFiles/Toy.dir/all: toy/lib/CMakeFiles/obj.Toy.dir/all
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/Toy.dir/build.make toy/lib/CMakeFiles/Toy.dir/depend
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/Toy.dir/build.make toy/lib/CMakeFiles/Toy.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num=7 "Built target Toy"
+.PHONY : toy/lib/CMakeFiles/Toy.dir/all
+
+# Build rule for subdir invocation for target.
+toy/lib/CMakeFiles/Toy.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 8
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 toy/lib/CMakeFiles/Toy.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 0
+.PHONY : toy/lib/CMakeFiles/Toy.dir/rule
+
+# Convenience name for target.
+Toy: toy/lib/CMakeFiles/Toy.dir/rule
+.PHONY : Toy
+
+# clean rule for target.
+toy/lib/CMakeFiles/Toy.dir/clean:
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/Toy.dir/build.make toy/lib/CMakeFiles/Toy.dir/clean
+.PHONY : toy/lib/CMakeFiles/Toy.dir/clean
+
+#=============================================================================
+# Target rules for target toy/lib/CMakeFiles/install-Toy.dir
+
+# All Build rule for target.
+toy/lib/CMakeFiles/install-Toy.dir/all: toy/lib/CMakeFiles/Toy.dir/all
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/install-Toy.dir/build.make toy/lib/CMakeFiles/install-Toy.dir/depend
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/install-Toy.dir/build.make toy/lib/CMakeFiles/install-Toy.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num= "Built target install-Toy"
+.PHONY : toy/lib/CMakeFiles/install-Toy.dir/all
+
+# Build rule for subdir invocation for target.
+toy/lib/CMakeFiles/install-Toy.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 8
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 toy/lib/CMakeFiles/install-Toy.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 0
+.PHONY : toy/lib/CMakeFiles/install-Toy.dir/rule
+
+# Convenience name for target.
+install-Toy: toy/lib/CMakeFiles/install-Toy.dir/rule
+.PHONY : install-Toy
+
+# clean rule for target.
+toy/lib/CMakeFiles/install-Toy.dir/clean:
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/install-Toy.dir/build.make toy/lib/CMakeFiles/install-Toy.dir/clean
+.PHONY : toy/lib/CMakeFiles/install-Toy.dir/clean
+
+#=============================================================================
+# Target rules for target toy/lib/CMakeFiles/install-Toy-stripped.dir
+
+# All Build rule for target.
+toy/lib/CMakeFiles/install-Toy-stripped.dir/all: toy/lib/CMakeFiles/Toy.dir/all
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/install-Toy-stripped.dir/build.make toy/lib/CMakeFiles/install-Toy-stripped.dir/depend
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/install-Toy-stripped.dir/build.make toy/lib/CMakeFiles/install-Toy-stripped.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num= "Built target install-Toy-stripped"
+.PHONY : toy/lib/CMakeFiles/install-Toy-stripped.dir/all
+
+# Build rule for subdir invocation for target.
+toy/lib/CMakeFiles/install-Toy-stripped.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 8
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 toy/lib/CMakeFiles/install-Toy-stripped.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 0
+.PHONY : toy/lib/CMakeFiles/install-Toy-stripped.dir/rule
+
+# Convenience name for target.
+install-Toy-stripped: toy/lib/CMakeFiles/install-Toy-stripped.dir/rule
+.PHONY : install-Toy-stripped
+
+# clean rule for target.
+toy/lib/CMakeFiles/install-Toy-stripped.dir/clean:
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/install-Toy-stripped.dir/build.make toy/lib/CMakeFiles/install-Toy-stripped.dir/clean
+.PHONY : toy/lib/CMakeFiles/install-Toy-stripped.dir/clean
+
+#=============================================================================
+# Target rules for target toy/tools/toy-opt/CMakeFiles/toy-opt.dir
+
+# All Build rule for target.
+toy/tools/toy-opt/CMakeFiles/toy-opt.dir/all: toy/lib/CMakeFiles/Toy.dir/all
+	$(MAKE) $(MAKESILENT) -f toy/tools/toy-opt/CMakeFiles/toy-opt.dir/build.make toy/tools/toy-opt/CMakeFiles/toy-opt.dir/depend
+	$(MAKE) $(MAKESILENT) -f toy/tools/toy-opt/CMakeFiles/toy-opt.dir/build.make toy/tools/toy-opt/CMakeFiles/toy-opt.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num=13,14 "Built target toy-opt"
+.PHONY : toy/tools/toy-opt/CMakeFiles/toy-opt.dir/all
+
+# Build rule for subdir invocation for target.
+toy/tools/toy-opt/CMakeFiles/toy-opt.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 10
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 toy/tools/toy-opt/CMakeFiles/toy-opt.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 0
+.PHONY : toy/tools/toy-opt/CMakeFiles/toy-opt.dir/rule
+
+# Convenience name for target.
+toy-opt: toy/tools/toy-opt/CMakeFiles/toy-opt.dir/rule
+.PHONY : toy-opt
+
+# clean rule for target.
+toy/tools/toy-opt/CMakeFiles/toy-opt.dir/clean:
+	$(MAKE) $(MAKESILENT) -f toy/tools/toy-opt/CMakeFiles/toy-opt.dir/build.make toy/tools/toy-opt/CMakeFiles/toy-opt.dir/clean
+.PHONY : toy/tools/toy-opt/CMakeFiles/toy-opt.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

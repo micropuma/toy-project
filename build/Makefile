@@ -85,6 +85,51 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Toy\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles /home/leon/tutorial/mlir-tutorial/mlir-toy/build//CMakeFiles/progress.marks
@@ -272,6 +317,84 @@ mlir-gen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-gen.dir/build.make CMakeFiles/mlir-gen.dir/build
 .PHONY : mlir-gen/fast
 
+#=============================================================================
+# Target rules for targets named MLIRToyIncGen
+
+# Build rule for target.
+MLIRToyIncGen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MLIRToyIncGen
+.PHONY : MLIRToyIncGen
+
+# fast build rule for target.
+MLIRToyIncGen/fast:
+	$(MAKE) $(MAKESILENT) -f toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/build.make toy/include/toy/CMakeFiles/MLIRToyIncGen.dir/build
+.PHONY : MLIRToyIncGen/fast
+
+#=============================================================================
+# Target rules for targets named obj.Toy
+
+# Build rule for target.
+obj.Toy: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 obj.Toy
+.PHONY : obj.Toy
+
+# fast build rule for target.
+obj.Toy/fast:
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/obj.Toy.dir/build.make toy/lib/CMakeFiles/obj.Toy.dir/build
+.PHONY : obj.Toy/fast
+
+#=============================================================================
+# Target rules for targets named Toy
+
+# Build rule for target.
+Toy: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Toy
+.PHONY : Toy
+
+# fast build rule for target.
+Toy/fast:
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/Toy.dir/build.make toy/lib/CMakeFiles/Toy.dir/build
+.PHONY : Toy/fast
+
+#=============================================================================
+# Target rules for targets named install-Toy
+
+# Build rule for target.
+install-Toy: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 install-Toy
+.PHONY : install-Toy
+
+# fast build rule for target.
+install-Toy/fast:
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/install-Toy.dir/build.make toy/lib/CMakeFiles/install-Toy.dir/build
+.PHONY : install-Toy/fast
+
+#=============================================================================
+# Target rules for targets named install-Toy-stripped
+
+# Build rule for target.
+install-Toy-stripped: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 install-Toy-stripped
+.PHONY : install-Toy-stripped
+
+# fast build rule for target.
+install-Toy-stripped/fast:
+	$(MAKE) $(MAKESILENT) -f toy/lib/CMakeFiles/install-Toy-stripped.dir/build.make toy/lib/CMakeFiles/install-Toy-stripped.dir/build
+.PHONY : install-Toy-stripped/fast
+
+#=============================================================================
+# Target rules for targets named toy-opt
+
+# Build rule for target.
+toy-opt: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 toy-opt
+.PHONY : toy-opt
+
+# fast build rule for target.
+toy-opt/fast:
+	$(MAKE) $(MAKESILENT) -f toy/tools/toy-opt/CMakeFiles/toy-opt.dir/build.make toy/tools/toy-opt/CMakeFiles/toy-opt.dir/build
+.PHONY : toy-opt/fast
+
 dump.o: dump.cpp.o
 .PHONY : dump.o
 
@@ -327,19 +450,29 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... AArch64TargetParserTableGen"
 	@echo "... ARMTargetParserTableGen"
+	@echo "... MLIRToyIncGen"
 	@echo "... RISCVTargetParserTableGen"
 	@echo "... acc_gen"
+	@echo "... install-Toy"
+	@echo "... install-Toy-stripped"
 	@echo "... intrinsics_gen"
 	@echo "... mlir-doc"
 	@echo "... mlir-generic-headers"
 	@echo "... mlir-headers"
 	@echo "... mlir-tablegen-targets"
 	@echo "... omp_gen"
+	@echo "... Toy"
 	@echo "... mlir-dump"
 	@echo "... mlir-gen"
+	@echo "... obj.Toy"
+	@echo "... toy-opt"
 	@echo "... dump.o"
 	@echo "... dump.i"
 	@echo "... dump.s"
