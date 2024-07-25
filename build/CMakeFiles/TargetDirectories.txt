@@ -8,6 +8,6 @@
 /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/mlir-headers.dir
 /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/mlir-generic-headers.dir
 /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/mlir-doc.dir
-/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/mlir-toy.dir
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/mlir-dump.dir
 /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/edit_cache.dir
 /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles/rebuild_cache.dir

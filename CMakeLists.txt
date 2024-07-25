@@ -33,8 +33,18 @@ include_directories(${LLVM_INCLUDE_DIRS} ${MLIR_INCLUDE_DIRS})
 message(STATUS "LLVM include directories: ${LLVM_INCLUDE_DIRS}")
 message(STATUS "MLIR include directories: ${MLIR_INCLUDE_DIRS}")
 
-add_executable(mlir-toy main.cpp)
-set_target_properties(mlir-toy PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# dump mlir表示
+add_executable(mlir-dump dump.cpp)
+set_target_properties(mlir-dump PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# 链接 LLVM 和 MLIR 库
+target_link_libraries(
+    mlir-dump
+    MLIRIR
+    MLIRParser
+    MLIRFuncDialect
+    MLIRArithDialect
+)
 
 # 输出目标信息
 message(STATUS "Executable target: mlir-toy")

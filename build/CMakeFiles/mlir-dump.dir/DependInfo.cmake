@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/leon/tutorial/mlir-tutorial/mlir-toy/main.cpp" "CMakeFiles/mlir-toy.dir/main.cpp.o" "gcc" "CMakeFiles/mlir-toy.dir/main.cpp.o.d"
+  "/home/leon/tutorial/mlir-tutorial/mlir-toy/dump.cpp" "CMakeFiles/mlir-dump.dir/dump.cpp.o" "gcc" "CMakeFiles/mlir-dump.dir/dump.cpp.o.d"
   )
 
 # Targets to which this target links.

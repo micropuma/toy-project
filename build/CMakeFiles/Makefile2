@@ -63,7 +63,7 @@ CMAKE_BINARY_DIR = /home/leon/tutorial/mlir-tutorial/mlir-toy/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/mlir-toy.dir/all
+all: CMakeFiles/mlir-dump.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -81,7 +81,7 @@ clean: CMakeFiles/mlir-tablegen-targets.dir/clean
 clean: CMakeFiles/mlir-headers.dir/clean
 clean: CMakeFiles/mlir-generic-headers.dir/clean
 clean: CMakeFiles/mlir-doc.dir/clean
-clean: CMakeFiles/mlir-toy.dir/clean
+clean: CMakeFiles/mlir-dump.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -345,30 +345,30 @@ CMakeFiles/mlir-doc.dir/clean:
 .PHONY : CMakeFiles/mlir-doc.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/mlir-toy.dir
+# Target rules for target CMakeFiles/mlir-dump.dir
 
 # All Build rule for target.
-CMakeFiles/mlir-toy.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-toy.dir/build.make CMakeFiles/mlir-toy.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-toy.dir/build.make CMakeFiles/mlir-toy.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num=1,2 "Built target mlir-toy"
-.PHONY : CMakeFiles/mlir-toy.dir/all
+CMakeFiles/mlir-dump.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-dump.dir/build.make CMakeFiles/mlir-dump.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-dump.dir/build.make CMakeFiles/mlir-dump.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles --progress-num=1,2 "Built target mlir-dump"
+.PHONY : CMakeFiles/mlir-dump.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/mlir-toy.dir/rule: cmake_check_build_system
+CMakeFiles/mlir-dump.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mlir-toy.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mlir-dump.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/leon/tutorial/mlir-tutorial/mlir-toy/build/CMakeFiles 0
-.PHONY : CMakeFiles/mlir-toy.dir/rule
+.PHONY : CMakeFiles/mlir-dump.dir/rule
 
 # Convenience name for target.
-mlir-toy: CMakeFiles/mlir-toy.dir/rule
-.PHONY : mlir-toy
+mlir-dump: CMakeFiles/mlir-dump.dir/rule
+.PHONY : mlir-dump
 
 # clean rule for target.
-CMakeFiles/mlir-toy.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-toy.dir/build.make CMakeFiles/mlir-toy.dir/clean
-.PHONY : CMakeFiles/mlir-toy.dir/clean
+CMakeFiles/mlir-dump.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-dump.dir/build.make CMakeFiles/mlir-dump.dir/clean
+.PHONY : CMakeFiles/mlir-dump.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

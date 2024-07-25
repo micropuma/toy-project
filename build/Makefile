@@ -247,41 +247,41 @@ mlir-doc/fast:
 .PHONY : mlir-doc/fast
 
 #=============================================================================
-# Target rules for targets named mlir-toy
+# Target rules for targets named mlir-dump
 
 # Build rule for target.
-mlir-toy: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mlir-toy
-.PHONY : mlir-toy
+mlir-dump: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mlir-dump
+.PHONY : mlir-dump
 
 # fast build rule for target.
-mlir-toy/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-toy.dir/build.make CMakeFiles/mlir-toy.dir/build
-.PHONY : mlir-toy/fast
+mlir-dump/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-dump.dir/build.make CMakeFiles/mlir-dump.dir/build
+.PHONY : mlir-dump/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+dump.o: dump.cpp.o
+.PHONY : dump.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-toy.dir/build.make CMakeFiles/mlir-toy.dir/main.cpp.o
-.PHONY : main.cpp.o
+dump.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-dump.dir/build.make CMakeFiles/mlir-dump.dir/dump.cpp.o
+.PHONY : dump.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+dump.i: dump.cpp.i
+.PHONY : dump.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-toy.dir/build.make CMakeFiles/mlir-toy.dir/main.cpp.i
-.PHONY : main.cpp.i
+dump.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-dump.dir/build.make CMakeFiles/mlir-dump.dir/dump.cpp.i
+.PHONY : dump.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+dump.s: dump.cpp.s
+.PHONY : dump.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-toy.dir/build.make CMakeFiles/mlir-toy.dir/main.cpp.s
-.PHONY : main.cpp.s
+dump.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mlir-dump.dir/build.make CMakeFiles/mlir-dump.dir/dump.cpp.s
+.PHONY : dump.cpp.s
 
 # Help Target
 help:
@@ -301,10 +301,10 @@ help:
 	@echo "... mlir-headers"
 	@echo "... mlir-tablegen-targets"
 	@echo "... omp_gen"
-	@echo "... mlir-toy"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... mlir-dump"
+	@echo "... dump.o"
+	@echo "... dump.i"
+	@echo "... dump.s"
 .PHONY : help
 
 
