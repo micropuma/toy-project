@@ -31,4 +31,8 @@
 *.out
 *.app
 
-*.cache
+# Ignore build directory
+/build/
+
+# Ignore .cache directory
+/.cache/
