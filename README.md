@@ -41,9 +41,16 @@ install
 ├── lib
 └── share
 ```
-> export PATH=//home/leon/tutorial/mlir-tutorial/install/bin:$PATH  
-方便调用install下的bin里面的mlir-opt等程序。  
+> echo 'export PATH=/home/leon/tutorial/mlir-tutorial/install/bin:$PATH' >> ~/.bashrc  
+source ~/.bashrc 
+
+持久化更改，方便调用install下的bin里面的mlir-opt等程序。  
+
+## mlir tutorial
+
 
 ## mlir toy项目
 
 
+## References
+1. https://github.com/KEKE046/mlir-tutorial
