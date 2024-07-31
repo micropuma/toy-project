@@ -14,3 +14,10 @@ void ToyDialect::initialize() {
 #include "toy/Toy.cpp.inc"
   >();
 }
+
+// 实现SubOp的verifier
+LogicalResult SubOp::verify() {
+  if (getLhs().getType() != getRhs().getType())
+    return this->emitError() << "Lhs type " << getLhs().getType() << " and Rhs type " << getRhs().getType() << " must be the same";
+  return success();
+}

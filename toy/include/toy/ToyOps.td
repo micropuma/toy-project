@@ -20,6 +20,9 @@ def SubOp : ToyOp<"sub", [Pure]> {
   let summary = "sub operation";
   let arguments = (ins AnyInteger:$lhs, AnyInteger:$rhs);
   let results = (outs AnyInteger:$result);
+
+  // 用于发现IR的错误的table gen选项。
+  let hasVerifier = true;
 }
 
 def ConstantOp : ToyOp<"const", [Pure]> {
