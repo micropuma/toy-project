@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     // 添加基本块
     auto entry = func.addEntryBlock();
     auto args = entry->getArguments();
-
+    
     // 设置插入点
     builder.setInsertionPointToEnd(entry);
 
