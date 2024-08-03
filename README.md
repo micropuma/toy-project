@@ -79,10 +79,17 @@ ex3-dialect
         ├── CMakeLists.txt
         └── toy-opt.cpp     # Executable Tool
 ```
-
+学习完第一个tutorial后，达到如下目标：  
+1. 用cmake构建mlir standalone项目框架
+2. 学会使用tablegen编写基本dialect的op语法，type语法等
+3. 学会编写简单的pass
+4. 学会partial lower到llvm或是其他后端  
+欠缺的点：
+* mlir test框架的集成
+* 一个完整的编译器
+* mlir技术细节
 
 ## mlir toy项目
-
 
 ## References
 1. https://github.com/KEKE046/mlir-tutorial(mlir tutorial部分重点参考此文档)
