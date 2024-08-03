@@ -4,6 +4,7 @@
 #include "mlir/Dialect/Arith/IR/Arith.h"
 #include "mlir/Transforms/Passes.h"
 #include "toy/ToyDialect.h"
+#include "toy/ToyPasses.h"
 using namespace mlir;
 using namespace llvm;
 
@@ -16,6 +17,7 @@ int main(int argc, char ** argv) {
   // 注册两个 Pass
   registerCSEPass();
   registerCanonicalizerPass();
+  toy::registerPasses();
 
   return asMainReturnCode(MlirOptMain(argc, argv, "toy-opt", registry));
 }
