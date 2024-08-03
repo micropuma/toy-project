@@ -7,6 +7,10 @@ def ToyDialect : Dialect {
   let name = "toy";
   let cppNamespace = "::toy";
   let summary = "Toy Dialect";
+  let useDefaultTypePrinterParser = true;
+  let extraClassDeclaration = [{
+    void registerTypes();
+  }];
 }
 
 #endif // ToyDialect_TD

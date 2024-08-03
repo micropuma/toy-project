@@ -7,6 +7,5 @@ target_link_libraries(toy-opt
 
   MLIROptLib        # 对应 #include "mlir/Tools/mlir-opt/MlirOptMain.h"
   MLIRFuncDialect   # 对应 #include "mlir/Dialect/Func/IR/FuncOps.h"
-  MLIRArithDialect  # 对应 #include "mlir/Dialect/Arithmetic/IR/Arith.h"
   MLIRTransforms    # 对应 #include "mlir/Transforms/Passes.h"
 )

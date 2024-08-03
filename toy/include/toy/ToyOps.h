@@ -4,6 +4,7 @@
 #include "mlir/IR/Builders.h"
 
 #include "toy/ToyDialect.h"
+#include "toy/ToyTypes.h"
 #include "mlir/Interfaces/SideEffectInterfaces.h"
 #include "mlir/Interfaces/ControlFlowInterfaces.h"
 #include "mlir/Interfaces/InferTypeOpInterface.h"

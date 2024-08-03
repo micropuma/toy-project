@@ -3,10 +3,11 @@
 
 include "mlir/IR/OpBase.td"
 include "toy/ToyDialect.td"
-include "mlir/Interfaces/SideEffectInterfaces.td"
-include "mlir/Interfaces/ControlFlowInterfaces.td"
+include "toy/ToyTypes.td"
 include "mlir/Interfaces/InferTypeOpInterface.td"
+include "mlir/Interfaces/SideEffectInterfaces.td"
 include "mlir/Interfaces/FunctionInterfaces.td"
+include "mlir/Interfaces/ControlFlowInterfaces.td"
 include "mlir/IR/RegionKindInterface.td"
 
 // mnemonic 指名字
@@ -16,49 +17,62 @@ class ToyOp<string mnemonic, list<Trait> traits = []> :
 // Pure 是 Trait，表示没有 SideEffect 的纯函数
 def AddOp : ToyOp<"add", [Pure, SameOperandsAndResultType]> {
   let summary = "add operation";
-  let arguments = (ins Variadic<AnyInteger>:$inputs);
-  let results = (outs AnyInteger:$result);
+  let arguments = (ins Variadic<ToyInteger>:$inputs);
+  let results = (outs ToyInteger:$result);
   let assemblyFormat = "$inputs attr-dict `:` type($result)";
 }
 
 def SubOp : ToyOp<"sub", [Pure, SameOperandsAndResultType]> {
   let summary = "sub operation";
-  let arguments = (ins AnyInteger:$lhs, AnyInteger:$rhs);
-  let results = (outs AnyInteger:$result);
-
-  // 用于发现IR的错误的table gen选项。
-  let hasVerifier = true;
-  // 教程使用自建的build方法，但是后面使用SameOperandsAndResultType 
-  // 该trait会自动构建，导致冲突。
-
+  let arguments = (ins ToyInteger:$lhs, ToyInteger:$rhs);
+  let results = (outs ToyInteger:$result);
   let assemblyFormat = "$lhs `,` $rhs attr-dict `:` type($result)";
+  let hasVerifier = true;
 }
 
 def ConstantOp : ToyOp<"const", [Pure, InferTypeOpAdaptor]> {
   let summary = "const operation";
   let arguments = (ins APIntAttr:$value);
-  let results = (outs AnyInteger:$result);
-  
+  let results = (outs ToyInteger:$result);
+  let assemblyFormat = "$value attr-dict";
   let extraClassDeclaration = [{
-    int64_t getWidth() {
+    int64_t getBitWidth() {
       return getResult().getType().getWidth();
     }
   }];
-
-  let assemblyFormat = "$value attr-dict";
 }
+
+// 另一种实现
+//
+// def ConstantOp : ToyOp<"const", [Pure, InferTypeOpInterface]> {
+//   let summary = "const operation";
+//   let arguments = (ins APIntAttr:$value);
+//   let results = (outs AnyInteger:$result);
+//   let assemblyFormat = "$value attr-dict";
+//   let extraClassDeclaration = [{
+//     static mlir::LogicalResult inferReturnTypes(
+//       mlir::MLIRContext * context,
+//       std::optional<::mlir::Location> location,
+//       mlir::ValueRange operands,
+//       mlir::DictionaryAttr attributes,
+//       mlir::OpaqueProperties properties,
+//       mlir::RegionRange regions,
+//       llvm::SmallVectorImpl<::mlir::Type>& inferredReturnTypes
+//     );
+//   }];
+// }
 
 def ReturnOp : ToyOp<"ret", [Terminator, ReturnLike]> {
   let summary = "return operation";
-  let arguments = (ins Optional<AnyInteger>:$data);
+  let arguments = (ins AnyType:$data);
   let assemblyFormat = "$data attr-dict `:` type($data)";
 }
 
 def FuncOp : ToyOp<"func", [
-  // This trait asserts that the regions of an operation will not capture, or reference, 
-  // SSA values defined above the region scope.
   IsolatedFromAbove,
-  FunctionOpInterface, 
+  FunctionOpInterface,
+  /* Symbol, */ /* Symbol 会自动被 FunctionOpInterface 加上 */
+  /* CallableOpInterface, */ /* CallOpInterface 会自动被 FunctionOpInterface 加上 */
   RegionKindInterface]> {
   let summary = "function";
   let arguments = (ins

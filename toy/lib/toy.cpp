@@ -1,12 +1,22 @@
+#include "mlir/IR/BuiltinAttributes.h"
+#include "mlir/IR/BuiltinTypes.h"
+#include "mlir/Interfaces/CallInterfaces.h"
+#include "mlir/Support/LogicalResult.h"
+#include "mlir/Interfaces/FunctionImplementation.h"
 #include "toy/ToyDialect.h"
 #include "toy/ToyOps.h"
 
 #include "toy/ToyDialect.cpp.inc"
-#include "llvm/ADT/SmallVector.h"
 #define GET_OP_CLASSES
 #include "toy/Toy.cpp.inc"
 
-#include "mlir/Interfaces/FunctionImplementation.h"
+#include "toy/ToyTypes.h"
+#include "mlir/IR/DialectImplementation.h"
+#include "llvm/ADT/StringExtras.h"
+#include "llvm/ADT/StringSwitch.h"
+#include "llvm/ADT/TypeSwitch.h"
+#define GET_TYPEDEF_CLASSES
+#include "toy/ToyTypes.cpp.inc"
 
 using namespace mlir;
 using namespace toy;
@@ -16,6 +26,14 @@ void ToyDialect::initialize() {
 #define GET_OP_LIST
 #include "toy/Toy.cpp.inc"
   >();
+  registerTypes();
+}
+
+void ToyDialect::registerTypes() {
+  addTypes<
+#define GET_TYPEDEF_LIST
+#include "toy/ToyTypes.cpp.inc"
+      >();
 }
 
 // 实现SubOp的verifier

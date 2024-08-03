@@ -1,0 +1,36 @@
+-- Starting CMake configuration for mlir-toy
+-- MLIR found: /home/leon/tutorial/mlir-tutorial/install/lib/cmake/mlir
+-- MLIR CMake directory: /home/leon/tutorial/mlir-tutorial/install/lib/cmake/mlir
+-- LLVM found: /home/leon/tutorial/mlir-tutorial/install/lib/cmake/llvm
+-- LLVM CMake directory: /home/leon/tutorial/mlir-tutorial/install/lib/cmake/llvm
+-- CMAKE_MODULE_PATH: /home/leon/tutorial/mlir-tutorial/install/lib/cmake/llvm;/home/leon/tutorial/mlir-tutorial/install/lib/cmake/llvm;/home/leon/tutorial/mlir-tutorial/install/lib/cmake/mlir;/home/leon/tutorial/mlir-tutorial/install/lib/cmake/llvm
+-- Building with -fPIC
+-- LLVM include directories: /home/leon/tutorial/mlir-tutorial/install/include
+-- MLIR include directories: /home/leon/tutorial/mlir-tutorial/install/include
+-- Executable target: mlir-toy
+-- Source files for mlir-toy: main.cpp
+-- cmake current source directories: /home/leon/tutorial/mlir-tutorial/mlir-toy/toy
+-- cmake current binary directories: /home/leon/tutorial/mlir-tutorial/mlir-toy/build/toy
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/leon/tutorial/mlir-tutorial/mlir-toy/build
+Consolidate compiler generated dependencies of target mlir-dump
+[ 11%] Built target mlir-dump
+Consolidate compiler generated dependencies of target mlir-gen
+[ 22%] Built target mlir-gen
+[ 55%] Built target MLIRToyIncGen
+[ 55%] Built target mlir-generic-headers
+Consolidate compiler generated dependencies of target obj.Toy
+[ 61%] Building CXX object toy/lib/CMakeFiles/obj.Toy.dir/toy.cpp.o
+/home/leon/tutorial/mlir-tutorial/mlir-toy/toy/lib/toy.cpp:40:15: error: no declaration matches ‘llvm::LogicalResult toy::SubOp::verify()’
+   40 | LogicalResult SubOp::verify() {
+      |               ^~~~~
+/home/leon/tutorial/mlir-tutorial/mlir-toy/toy/lib/toy.cpp:40:15: note: no functions named ‘llvm::LogicalResult toy::SubOp::verify()’
+In file included from /home/leon/tutorial/mlir-tutorial/mlir-toy/toy/include/toy/ToyOps.h:16,
+                 from /home/leon/tutorial/mlir-tutorial/mlir-toy/toy/lib/toy.cpp:7:
+/home/leon/tutorial/mlir-tutorial/mlir-toy/build/toy/include/toy/Toy.h.inc:1087:7: note: ‘class toy::SubOp’ defined here
+ 1087 | class SubOp : public ::mlir::Op<SubOp, ::mlir::OpTrait::ZeroRegions, ::mlir::OpTrait::OneResult, ::mlir::OpTrait::OneTypedResult<::toy::ToyIntegerType>::Impl, ::mlir::OpTrait::ZeroSuccessors, ::mlir::OpTrait::NOperands<2>::Impl, ::mlir::OpTrait::OpInvariants, ::mlir::ConditionallySpeculatable::Trait, ::mlir::OpTrait::AlwaysSpeculatableImplTrait, ::mlir::MemoryEffectOpInterface::Trait, ::mlir::OpTrait::SameOperandsAndResultType, ::mlir::InferTypeOpInterface::Trait> {
+      |       ^~~~~
+make[2]: *** [toy/lib/CMakeFiles/obj.Toy.dir/build.make:76: toy/lib/CMakeFiles/obj.Toy.dir/toy.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:580: toy/lib/CMakeFiles/obj.Toy.dir/all] Error 2
+make: *** [Makefile:136: all] Error 2
