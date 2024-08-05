@@ -42,26 +42,6 @@ def ConstantOp : ToyOp<"const", [Pure, InferTypeOpAdaptor]> {
   }];
 }
 
-// 另一种实现
-//
-// def ConstantOp : ToyOp<"const", [Pure, InferTypeOpInterface]> {
-//   let summary = "const operation";
-//   let arguments = (ins APIntAttr:$value);
-//   let results = (outs AnyInteger:$result);
-//   let assemblyFormat = "$value attr-dict";
-//   let extraClassDeclaration = [{
-//     static mlir::LogicalResult inferReturnTypes(
-//       mlir::MLIRContext * context,
-//       std::optional<::mlir::Location> location,
-//       mlir::ValueRange operands,
-//       mlir::DictionaryAttr attributes,
-//       mlir::OpaqueProperties properties,
-//       mlir::RegionRange regions,
-//       llvm::SmallVectorImpl<::mlir::Type>& inferredReturnTypes
-//     );
-//   }];
-// }
-
 def ReturnOp : ToyOp<"ret", [Terminator, ReturnLike]> {
   let summary = "return operation";
   let arguments = (ins AnyType:$data);

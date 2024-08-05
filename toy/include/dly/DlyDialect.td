@@ -1,12 +1,12 @@
-#ifndef TOY_DIALECT_TD
-#define TOY_DIALECT_TD
+#ifndef DLY_DIALECT_TD
+#define DLY_DIALECT_TD
 
 include "mlir/IR/OpBase.td"
 
-def ToyDialect : Dialect {
-  let name = "toy";
-  let cppNamespace = "::toy";
-  let summary = "A high-level dialect for analyzing and optimizing the Toy language";
+def DlyDialect : Dialect {
+  let name = "dly";
+  let cppNamespace = "::mlir::dly";
+  let summary = "A high-level dialect for analyzing and optimizing the dly language";
   // A much longer description of our dialect.
   let description = [{
     The Toy language is a tensor-based language that allows you to define
