@@ -1,0 +1,1 @@
+add_mlir_library(Dly Dialect.cpp MLIRGen.cpp DEPENDS MLIRDlyIncGen)

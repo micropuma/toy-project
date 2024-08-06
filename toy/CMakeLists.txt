@@ -9,5 +9,5 @@ message(STATUS "cmake current binary directories: ${CMAKE_CURRENT_BINARY_DIR}")
 
 add_subdirectory(include)
 add_subdirectory(lib)
-add_subdirectory(tools/toy-opt)
 add_subdirectory(tools/dly-opt)
+add_subdirectory(tools/toy-opt)

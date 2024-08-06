@@ -5,7 +5,7 @@ include "mlir/IR/OpBase.td"
 
 def DlyDialect : Dialect {
   let name = "dly";
-  let cppNamespace = "::mlir::dly";
+  let cppNamespace = "::mlir::toy";
   let summary = "A high-level dialect for analyzing and optimizing the dly language";
   // A much longer description of our dialect.
   let description = [{
@@ -13,11 +13,7 @@ def DlyDialect : Dialect {
     functions, perform some math computation, and print results. This dialect
     provides a representation of the language that is amenable to analysis and
     optimization.
-  }];
-  let useDefaultTypePrinterParser = true;
-  let extraClassDeclaration = [{
-    void registerTypes();
-  }];
+  }]; 
 }
 
-#endif // ToyDialect_TD
+#endif // DlyDialect_TD

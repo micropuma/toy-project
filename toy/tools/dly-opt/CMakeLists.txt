@@ -19,9 +19,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXXFLAGS}")
 
 # 链接所需的库
 target_link_libraries(dlyc
-  PRIVATE ParserLib 
-  # Dly
-  MLIRSupport
+  PRIVATE ParserLib
+  Dly
+  MLIRAnalysis
+  MLIRFunctionInterfaces
+  MLIRIR
+  MLIRParser
+  MLIRSideEffectInterfaces
+  MLIRTransforms
 )
 
 # 设置链接选项
