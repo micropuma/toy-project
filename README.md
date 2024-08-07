@@ -90,6 +90,19 @@ ex3-dialect
 * mlir技术细节
 
 ## mlir toy项目
+> MLIR官方文档有许多tutorial，学习toy这个教学语言，理解mlir的整体流程开发。基于mlir的基础框架，编写standalone的dly dialect，完成dly-opt工具。
+
+### Toy Parser
+教程自带Toy语言的Lexer和Parser，是基础的**手写递归下降**。
+
+### Dialect+Operation+MLIRGen
+> 这部分重点完成：从Toy parser出来的ast树代码生成mlir中间表示形式。重点是MLIRGen的代码编写
+
+
+
+### 
 
 ## References
 1. https://github.com/KEKE046/mlir-tutorial(mlir tutorial部分重点参考此文档)
+2. https://mlir.llvm.org/docs/Tutorials/Toy
+
