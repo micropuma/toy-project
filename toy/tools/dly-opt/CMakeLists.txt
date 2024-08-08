@@ -24,6 +24,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXXFLAGS}")
 target_link_libraries(dlyc
   PRIVATE ParserLib
   Dly
+  DlyCombine
   MLIRAnalysis
   MLIRFunctionInterfaces
   MLIRIR

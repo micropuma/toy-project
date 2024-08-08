@@ -237,6 +237,7 @@ def ReshapeOp : Dly_Op<"reshape"> {
   let assemblyFormat = [{
     `(` $input `:` type($input) `)` attr-dict `to` type(results)
   }];
+  let hasCanonicalizer = 1;
 }
 
 //===----------------------------------------------------------------------===//
@@ -285,7 +286,7 @@ def ReturnOp : Dly_Op<"return", [Pure, HasParent<"FuncOp">,
 // TransposeOp
 //===----------------------------------------------------------------------===//
 
-def TransposeOp : Dly_Op<"transpose"> {
+def TransposeOp : Dly_Op<"transpose", [Pure]> {
   let summary = "transpose operation";
 
   let arguments = (ins F64Tensor:$input);
@@ -302,6 +303,10 @@ def TransposeOp : Dly_Op<"transpose"> {
 
   // Invoke a static verify method to verify this transpose operation.
   let hasVerifier = 1;
+
+  // Enable registering canonicalization patterns with this operation.
+  // ::an implementation of ::getCanonicalizationPatterns() is implemented to call this function.
+  let hasCanonicalizer = 1;
 }
 
 #endif // DLY_OPS_TD
