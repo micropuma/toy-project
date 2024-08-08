@@ -3,6 +3,9 @@ set(DLYC_SOURCES
     dly.cpp
 )
 
+# 设置编译类型为Debug 以启用调试信息
+set(CMAKE_BUILD_TYPE Debug)
+
 # 生成可执行文件
 add_executable(dlyc ${DLYC_SOURCES})
 

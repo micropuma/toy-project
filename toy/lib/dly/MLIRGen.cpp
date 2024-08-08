@@ -166,6 +166,7 @@ private:
     if (!entryBlock.empty())
       returnOp = dyn_cast<ReturnOp>(entryBlock.back());
     if (!returnOp) {
+      // return 0相当于。
       builder.create<ReturnOp>(loc(funcAST.getProto()->loc()));
     } else if (returnOp.hasOperand()) {
       // Otherwise, if this return operation has an operand then add a result to
