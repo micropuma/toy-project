@@ -126,6 +126,7 @@ int dumpMLIR() {
 
     // Add a run of the canonicalizer to optimize the mlir module.
     pm.addNestedPass<mlir::toy::FuncOp>(mlir::createCanonicalizerPass());
+    pm.addPass(mlir::createInlinerPass());
     if (mlir::failed(pm.run(*module)))
       return 4;
   }

@@ -26,9 +26,12 @@ target_link_libraries(dlyc
   Dly
   DlyCombine
   MLIRAnalysis
+  MLIRCastInterfaces
+  MLIRCallInterfaces
   MLIRFunctionInterfaces
   MLIRIR
   MLIRParser
+  MLIRPass
   MLIRSideEffectInterfaces
   MLIRTransforms
 )

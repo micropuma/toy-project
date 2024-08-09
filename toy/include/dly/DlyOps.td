@@ -8,6 +8,8 @@ include "mlir/Interfaces/SideEffectInterfaces.td"
 include "mlir/Interfaces/FunctionInterfaces.td"
 include "mlir/Interfaces/ControlFlowInterfaces.td"
 include "mlir/IR/RegionKindInterface.td"
+include "mlir/Interfaces/CallInterfaces.td"
+include "mlir/Interfaces/CastInterfaces.td"
 
 // mnemonic 指名字
 class Dly_Op<string mnemonic, list<Trait> traits = []> :
@@ -139,7 +141,7 @@ def FuncOp : Dly_Op<"func", [
 // GenericCallOp
 //===----------------------------------------------------------------------===//
 
-def GenericCallOp : Dly_Op<"generic_call"> {
+def GenericCallOp : Dly_Op<"generic_call", [DeclareOpInterfaceMethods<CallOpInterface>]> {
   let summary = "generic call operation";
   let description = [{
     Generic calls represent calls to a user defined function that needs to
@@ -198,6 +200,29 @@ def MulOp : Dly_Op<"mul"> {
 }
 
 //===----------------------------------------------------------------------===//
+// CastOp
+//===----------------------------------------------------------------------===//
+
+def CastOp : Dly_Op<"cast", [
+  DeclareOpInterfaceMethods<CastOpInterface>,
+  Pure,
+  SameOperandsAndResultShape
+]> {
+  let summary = "shape cast operation";
+  let description = [{
+    The "cast" operation converts a tensor from one type to an equivalent type
+    without changing any data elements. The source and destination types
+    must both be tensor types with the same element type. If both are ranked,
+    then shape is required to match. The operation is invalid if converting
+    to a mismatching constant dimension.
+  }];
+
+  let arguments = (ins F64Tensor:$input);
+  let results = (outs F64Tensor:$output);
+  let assemblyFormat = "$input attr-dict `:` type($input) `to` type($output)";
+}
+
+//===----------------------------------------------------------------------===//
 // PrintOp
 //===----------------------------------------------------------------------===//
 
@@ -239,6 +264,31 @@ def ReshapeOp : Dly_Op<"reshape"> {
   }];
   let hasCanonicalizer = 1;
 }
+
+//===----------------------------------------------------------------------===//
+// CastOp
+//===----------------------------------------------------------------------===//
+
+// def CastOp : Dly_Op<"cast", [
+//      DeclareOpInterfaceMethods<CastOpInterface>,
+//      DeclareOpInterfaceMethods<ShapeInferenceOpInterface>,
+//      Pure,
+//      SameOperandsAndResultShape
+//   ]> {
+//   let summary = "shape cast operation";
+//   let description = [{
+//     The "cast" operation converts a tensor from one type to an equivalent type
+//     without changing any data elements. The source and destination types must
+//     both be tensor types with the same element type. If both are ranked, then
+//     shape is required to match. The operation is invalid if converting to a
+//     mismatching constant dimension.
+//   }];
+
+//   let arguments = (ins F64Tensor:$input);
+//   let results = (outs F64Tensor:$output);
+
+//   let assemblyFormat = "$input attr-dict `:` type($input) `to` type($output)";
+// }
 
 //===----------------------------------------------------------------------===//
 // ReturnOp
