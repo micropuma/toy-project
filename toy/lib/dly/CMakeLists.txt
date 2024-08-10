@@ -1,2 +1,3 @@
 add_mlir_library(Dly Dialect.cpp MLIRGen.cpp DEPENDS MLIRDlyIncGen DlyCombineIncGen DlyShapeInferenceIncGen)
 add_subdirectory(Transforms)
+add_subdirectory(Passes)

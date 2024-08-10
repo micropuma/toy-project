@@ -1,0 +1,1 @@
+add_mlir_library(DlyInferShape ShapeInferencePass.cpp DEPENDS MLIRDlyIncGen DlyShapeInferenceIncGen)

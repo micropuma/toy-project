@@ -25,6 +25,7 @@ target_link_libraries(dlyc
   PRIVATE ParserLib
   Dly
   DlyCombine
+  DlyInferShape
   MLIRAnalysis
   MLIRCastInterfaces
   MLIRCallInterfaces

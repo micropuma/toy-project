@@ -175,6 +175,11 @@ private:
           function.getFunctionType().getInputs(), getType(VarType{})));
     }
 
+    // the inliner will only discard private-visible unused function definitions. 
+    if (funcAST.getProto()->getName() != "main") {
+      function.setPrivate();
+    }
+
     return function;
   }
 
