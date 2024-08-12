@@ -22,6 +22,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXXFLAGS}")
 
 get_property(dialect_libs GLOBAL PROPERTY MLIR_DIALECT_LIBS)
 get_property(extension_libs GLOBAL PROPERTY MLIR_EXTENSION_LIBS)
+get_property(conversion_libs GLOBAL PROPERTY MLIR_CONVERSION_LIBS)
 
 # 链接所需的库
 target_link_libraries(dlyc
@@ -32,19 +33,26 @@ target_link_libraries(dlyc
   DlyLowering
 
   # 添加Dialect和extension的lib文件。
-  ${dialect_libs}
-  ${extension_libs}
-
-  MLIRAnalysis
-  MLIRCastInterfaces
-  MLIRCallInterfaces
-  MLIRFunctionInterfaces
-  MLIRIR
-  MLIRParser
-  MLIRPass
-  MLIRSideEffectInterfaces
-  MLIRTransforms
-  MLIRSupport
+    ${dialect_libs}
+    ${conversion_libs}
+    ${extension_libs}
+    MLIRAnalysis
+    MLIRBuiltinToLLVMIRTranslation
+    MLIRCallInterfaces
+    MLIRCastInterfaces
+    MLIRExecutionEngine
+    MLIRFunctionInterfaces
+    MLIRIR
+    MLIRLLVMCommonConversion
+    MLIRLLVMDialect
+    MLIRLLVMToLLVMIRTranslation
+    MLIRMemRefDialect
+    MLIRParser
+    MLIRPass
+    MLIRSideEffectInterfaces
+    MLIRSupport
+    MLIRTargetLLVMIRExport
+    MLIRTransforms
 )
 
 # 设置链接选项
