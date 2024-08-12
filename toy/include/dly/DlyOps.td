@@ -261,7 +261,8 @@ def PrintOp : Dly_Op<"print"> {
   }];
 
   // The print operation takes an input tensor to print.
-  let arguments = (ins F64Tensor:$input);
+  // chapter5中，print操作的operand如果是F64Tensor，需要先lower到F64MemRef，然后再lower到llvm
+  let arguments = (ins AnyTypeOf<[F64Tensor, F64MemRef]>:$input);
 
   let assemblyFormat = "$input attr-dict `:` type($input)";
 }

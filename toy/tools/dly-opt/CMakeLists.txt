@@ -20,12 +20,21 @@ execute_process(COMMAND llvm-config --libs all OUTPUT_VARIABLE LLVM_LIBS OUTPUT_
 # 设置编译选项
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXXFLAGS}")
 
+get_property(dialect_libs GLOBAL PROPERTY MLIR_DIALECT_LIBS)
+get_property(extension_libs GLOBAL PROPERTY MLIR_EXTENSION_LIBS)
+
 # 链接所需的库
 target_link_libraries(dlyc
   PRIVATE ParserLib
   Dly
   DlyCombine
   DlyInferShape
+  DlyLowering
+
+  # 添加Dialect和extension的lib文件。
+  ${dialect_libs}
+  ${extension_libs}
+
   MLIRAnalysis
   MLIRCastInterfaces
   MLIRCallInterfaces
@@ -35,6 +44,7 @@ target_link_libraries(dlyc
   MLIRPass
   MLIRSideEffectInterfaces
   MLIRTransforms
+  MLIRSupport
 )
 
 # 设置链接选项
