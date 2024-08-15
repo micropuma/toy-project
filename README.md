@@ -1,4 +1,4 @@
-# MLIR toy compiler
+# MLIR Learning
 ## Set up  
 运用模版构建standalone mlir项目。
 ```shell
@@ -106,9 +106,14 @@ ex3-dialect
 ### MLIR Partial Lowering + Lowering to LLVM
 
 
-### 
+### Add an operation
 
 ## References
 1. https://github.com/KEKE046/mlir-tutorial(mlir tutorial部分重点参考此文档)
-2. https://mlir.llvm.org/docs/Tutorials/Toy
+2. https://mlir.llvm.org/docs/Tutorials/Toy(mlir官方toy compiler教程)
+3. MLIR: Multi-Level Intermediate Representation
+Building a Compiler with MLIR(google talk slide)
+4. https://sunfishcode.github.io/blog/2018/10/22/Canonicalization.html
+5. https://mlir.llvm.org/docs/PatternRewriter/
+6. https://mlir.llvm.org/docs/Interfaces/
 
