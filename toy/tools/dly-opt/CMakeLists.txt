@@ -26,11 +26,11 @@ get_property(conversion_libs GLOBAL PROPERTY MLIR_CONVERSION_LIBS)
 
 # 链接所需的库
 target_link_libraries(dlyc
-  PRIVATE ParserLib
-  Dly
-  DlyCombine
-  DlyInferShape
-  DlyLowering
+  PRIVATE debug ParserLib
+  debug Dly
+  debug DlyCombine
+  debug DlyInferShape
+  debug DlyLowering
 
   # 添加Dialect和extension的lib文件。
     ${dialect_libs}
