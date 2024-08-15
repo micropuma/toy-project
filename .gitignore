@@ -36,3 +36,5 @@
 
 # Ignore .cache directory
 /.cache/
+
+/png/
