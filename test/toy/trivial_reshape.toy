@@ -1,4 +1,4 @@
-# RUN: toyc-ch3 %s -emit=mlir -opt 2>&1 | FileCheck %s
+# RUN: dlyc %s -emit=mlir -opt 2>&1 | FileCheck-10 %s
 
 def main() {
   var a<2,1> = [1, 2];

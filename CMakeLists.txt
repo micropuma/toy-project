@@ -64,3 +64,26 @@ message(STATUS "Source files for mlir-toy: main.cpp")
 
 add_subdirectory(toy)
 
+enable_testing()
+
+# 配置 lit 测试
+find_program(LIT_EXECUTABLE NAMES lit)
+
+if (LIT_EXECUTABLE)
+    # 添加测试目录
+    set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/test/toy)
+
+    # 添加 lit 测试
+    add_custom_target(
+        run_lit_tests
+        COMMAND ${LIT_EXECUTABLE} ${TEST_SOURCES}
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running lit tests"
+    )
+
+    # 将 lit 测试添加到 CTest 测试
+    add_test(NAME lit_tests COMMAND ${LIT_EXECUTABLE} ${TEST_SOURCES})
+else ()
+    message(FATAL_ERROR "lit not found, please install it.")
+endif ()
+
