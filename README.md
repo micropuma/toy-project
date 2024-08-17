@@ -89,6 +89,98 @@ ex3-dialect
 * 一个完整的编译器
 * mlir技术细节
 
+### Integration Test
+> mlir的集成测试，使用lit搭配FileCheck工具。
+
+`lit.cfg配置文件`
+```python
+import os
+import lit.formats
+
+# The name of the test suite.
+config.name = 'Toy Dialect Tests'
+
+# Specify the test format.
+config.test_format = lit.formats.ShTest()
+
+# Test file suffixes
+config.suffixes = ['.toy']
+config.suffixes = ['.mlir']
+config.excludes = ['lit.cfg.py']
+
+# Ensure the tools directory is correctly set
+config.dlyc_executable = '/home/leon/tutorial/mlir-tutorial/mlir-toy/build/bin/dlyc'
+
+# Path configuration for test sources
+config.test_source_root = os.path.dirname(__file__)
+config.test_exec_root = os.path.join(config.test_source_root, 'toy')
+
+# Add necessary environment variables, if any
+config.environment['PATH'] = os.path.dirname(config.dlyc_executable) + os.pathsep + os.environ['PATH']
+```
+`codegen.toy测试示例`
+```python
+# RUN: dlyc %s -emit=mlir > %t.out 2>&1
+# RUN: FileCheck-10 %s < %t.out
+
+# User defined generic function that operates on unknown shaped arguments
+def multiply_transpose(a, b) {
+  return transpose(a) * transpose(b);
+}
+
+def main() {
+  var a<2, 3> = [[1, 2, 3], [4, 5, 6]];
+  var b<2, 3> = [1, 2, 3, 4, 5, 6];
+  var c = multiply_transpose(a, b);
+  var d = multiply_transpose(b, a);
+  print(d);
+}
+
+# CHECK-LABEL: dly.func private @multiply_transpose(
+# CHECK-SAME:                           [[VAL_0:%.*]]: tensor<*xf64>, [[VAL_1:%.*]]: tensor<*xf64>) -> tensor<*xf64>
+# CHECK:         [[VAL_2:%.*]] = dly.transpose([[VAL_0]] : tensor<*xf64>) to tensor<*xf64>
+# CHECK-NEXT:    [[VAL_3:%.*]] = dly.transpose([[VAL_1]] : tensor<*xf64>) to tensor<*xf64>
+# CHECK-NEXT:    [[VAL_4:%.*]] = dly.mul [[VAL_2]], [[VAL_3]] :  tensor<*xf64>
+# CHECK-NEXT:    dly.return [[VAL_4]] : tensor<*xf64>
+
+# CHECK-LABEL: dly.func @main()
+# CHECK-NEXT:    [[VAL_5:%.*]] = dly.constant dense<{{\[\[}}1.000000e+00, 2.000000e+00, 3.000000e+00], [4.000000e+00, 5.000000e+00, 6.000000e+00]]> : tensor<2x3xf64>
+# CHECK-NEXT:    [[VAL_6:%.*]] = dly.reshape([[VAL_5]] : tensor<2x3xf64>) to tensor<2x3xf64>
+# CHECK-NEXT:    [[VAL_7:%.*]] = dly.constant dense<[1.000000e+00, 2.000000e+00, 3.000000e+00, 4.000000e+00, 5.000000e+00, 6.000000e+00]> : tensor<6xf64>
+# CHECK-NEXT:    [[VAL_8:%.*]] = dly.reshape([[VAL_7]] : tensor<6xf64>) to tensor<2x3xf64>
+# CHECK-NEXT:    [[VAL_9:%.*]] = dly.generic_call @multiply_transpose([[VAL_6]], [[VAL_8]]) : (tensor<2x3xf64>, tensor<2x3xf64>) -> tensor<*xf64>
+# CHECK-NEXT:    [[VAL_10:%.*]] = dly.generic_call @multiply_transpose([[VAL_8]], [[VAL_6]]) : (tensor<2x3xf64>, tensor<2x3xf64>) -> tensor<*xf64>
+# CHECK-NEXT:    dly.print [[VAL_10]] : tensor<*xf64>
+# CHECK-NEXT:    dly.return
+```
+#### 将lit测试集成到项目中
+`CMake修改`  
+在顶层CMakeLists.txt文件，添加如下语句：
+```cmake
+enable_testing()
+
+# 配置 lit 测试
+find_program(LIT_EXECUTABLE NAMES lit)
+
+if (LIT_EXECUTABLE)
+    # 添加测试目录
+    set(TEST_SOURCES ${CMAKE_SOURCE_DIR}/test/toy)
+
+    # 添加 lit 测试
+    add_custom_target(
+        run_lit_tests
+        COMMAND ${LIT_EXECUTABLE} ${TEST_SOURCES}
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running lit tests"
+    )
+
+    # 将 lit 测试添加到 CTest 测试
+    add_test(NAME lit_tests COMMAND ${LIT_EXECUTABLE} ${TEST_SOURCES})
+else ()
+    message(FATAL_ERROR "lit not found, please install it.")
+endif ()
+```
+
 ## mlir toy项目
 > MLIR官方文档有许多tutorial，学习toy这个教学语言，理解mlir的整体流程开发。基于mlir的基础框架，编写standalone的dly dialect，完成dly-opt工具。
 
