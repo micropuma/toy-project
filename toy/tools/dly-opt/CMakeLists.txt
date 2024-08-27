@@ -1,6 +1,7 @@
 # 设置源文件
 set(DLYC_SOURCES
     dly.cpp
+    ../../lib/dly/Passes/TestDefUsePass.cpp
 )
 
 # 设置编译类型为Debug 以启用调试信息

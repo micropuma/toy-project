@@ -56,6 +56,8 @@ target_link_libraries(
     MLIRParser
     MLIRFuncDialect
     MLIRArithDialect
+    MLIRAffineDialect
+    
 )
 
 # 输出目标信息

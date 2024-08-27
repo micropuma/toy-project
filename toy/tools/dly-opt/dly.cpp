@@ -145,7 +145,6 @@ int loadAndProcessMLIR(mlir::MLIRContext &context,
     return error;
 
   mlir::PassManager pm(module.get()->getName());
-  // Apply any generic pass manager command line options and run the pipeline.
   if (mlir::failed(mlir::applyPassManagerCLOptions(pm)))
     return 4;
 
@@ -178,7 +177,7 @@ int loadAndProcessMLIR(mlir::MLIRContext &context,
     if (enableOpt) {
       optPM.addPass(mlir::affine::createLoopFusionPass());
       optPM.addPass(mlir::affine::createAffineScalarReplacementPass());
-    }
+    } 
   }
 
   if (isLoweringToLLVM) {
@@ -190,8 +189,13 @@ int loadAndProcessMLIR(mlir::MLIRContext &context,
     pm.addPass(mlir::LLVM::createDIScopeForLLVMFuncOpPass());
   }
 
+  // Apply any generic pass manager command line options and run the pipeline.
+  // apply print def use pass
+  pm.addPass(mlir::toy::createTestPrintDefUsePass());
+
   if (mlir::failed(pm.run(*module)))
     return 4;
+
   return 0;
 }
 

@@ -435,9 +435,6 @@ llvm::LogicalResult TransposeOp::verify() {
   return mlir::success();
 }
 
-//===----------------------------------------------------------------------===//
-// TableGen'd op method definitions
-//===----------------------------------------------------------------------===//
 
 #define GET_OP_CLASSES
 #include "dly/Dly.cpp.inc"

@@ -12,7 +12,7 @@
 -2.343655e-04 right/loop.mlir
 -2.057552e-04 right/lower.mlir
 -1.480818e-03 right/pass1.mlir
-2.938189e+00 toy/affine-lowering.mlir
-2.091038e-01 toy/invalid.mlir
+1.494217e+00 toy/affine-lowering.mlir
+1.382177e-01 toy/invalid.mlir
 -2.248154e-01 toy/llvm-lowering.mlir
-2.750700e+00 toy/shape_inference.mlir
+1.275434e+00 toy/shape_inference.mlir

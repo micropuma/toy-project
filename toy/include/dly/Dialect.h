@@ -27,6 +27,10 @@
 /// Include the auto-generated header file containing the declaration of the toy
 /// dialect.
 #include "dly/DlyDialect.h.inc"
+#include "llvm/ADT/ArrayRef.h"
+#include "llvm/IR/Value.h"
+#include <llvm/ADT/Hashing.h>
+#include <mlir/IR/Types.h>
 
 /// Include the auto-generated header file containing the declarations of the
 /// toy operations.
