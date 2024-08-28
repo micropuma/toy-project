@@ -305,6 +305,23 @@ void TransposeOp::getCanonicalizationPatterns(RewritePatternSet &results, MLIRCo
 }
 ```
 
+`Reshape`的优化
+reshape在tutorial中三种优化，均是使用DDR技术来实现。
+* reshape(reshape(x))，reshape操作的合并
+* reshape(constantOp(x)) = constantOp
+* reshape(x) = x，删除无用的reshape操作
+
+其中，尤其要注意constantOp的reshape。下述代码中，ReshapeConstant是通过llvm的nativecall机制，定义的内嵌代码，用以将一个const以inplace的方式reshape。而FoldConstantReshapeOptPattern在匹配成功后，利用ReshapeConstant机制做处理。
+```cpp
+// Reshape(Constant(x)) = x'
+def ReshapeConstant :
+  NativeCodeCall<"$0.reshape(::llvm::cast<ShapedType>($1.getType()))">;
+def FoldConstantReshapeOptPattern : Pat<
+  (ReshapeOp:$res (ConstantOp $arg)),
+  (ConstantOp (ReshapeConstant $arg, $res))>;
+```
+> 官方解释：Some **optimizations may require additional transformations on instruction arguments**. This is achieved using **NativeCodeCall**, which allows for more complex transformations either by calling into a C++ helper function or by using inline C++. An example of such an optimization is FoldConstantReshape, where we optimize Reshape of a constant value by **reshaping the constant in place and eliminating the reshape operation**.
+
 #### Interface
 
 
