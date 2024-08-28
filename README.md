@@ -259,9 +259,54 @@ MLIRGen有一个关键点：`builder.create<MulOp>(location, lhs, rhs)`中的Mul
 > 官方tutorial介绍了两种pass的编写方式。一种是针对于特定operation的pass，另一种是基于通用pass interface的pass编写。
 
 * 针对于特定Operation的优化：
-  > transposeOp(transposeOp)
-* 基于PassInterface的优化：  
-  > inline -> shapeInference -> 运用Canonicalize Pass，DCE Pass等，构成pass pipeline
+  transposeOp(transposeOp)
+* 基于PassInterface的优化：  inline -> shapeInference -> 运用Canonicalize Pass，DCE Pass等，构成pass pipeline
+
+#### PatternRewrite
+两种PatternRewrite的方法：  
+1. c++代码编写
+2. DDR 模版编写
+
+`transpose(transpose(x))`优化：lib/dly/DlyCombine.cpp中，**重点是需要注册Canonicalization framework！**
+```cpp
+/// write a single rewrite pattern to handle transpose(transpose(x)) -> x
+struct SimplifyRedundantTranspose : public mlir::OpRewritePattern<TransposeOp> {
+    /// We register this pattern to match every toy.transpose in the IR.
+    /// The "benefit" is used by the framework to order the patterns and process
+    /// them in order of profitability.
+    SimplifyRedundantTranspose(mlir::MLIRContext *context) : OpRewritePattern<TransposeOp>(context, /*benefit=*/1) {}
+
+    /// This method is attempting to match a pattern and rewrite it. The rewriter
+    /// argument is the orchestrator of the sequence of rewrites. It is expected
+    /// to interact with it to perform any changes to the IR from here.
+    mlir::LogicalResult matchAndRewrite(TransposeOp op, mlir::PatternRewriter &rewriter) const override {
+        // Look through the input of the current transpose.
+        mlir::Value transposeInput = op.getOperand();
+        // Check if the input is also a transpose.
+        // use getDefiningOp() to get the defining operation of the value.
+        TransposeOp transposeInputOp = transposeInput.getDefiningOp<TransposeOp>();
+
+        // Input defined by another transpose? If not, no match.
+        if (!transposeInputOp)
+            return failure();
+
+        // Otherwise, we have a redundant transpose. Replace it by the input of
+        // the current transpose operation.
+        rewriter.replaceOp(op, {transposeInputOp.getOperand()});
+        return success();
+    }
+};
+```
+注册的写法：
+```cpp
+/// Register out patterns for rewrite by the Canonicalization framework.
+void TransposeOp::getCanonicalizationPatterns(RewritePatternSet &results, MLIRContext *context) {
+    results.add<SimplifyRedundantTranspose>(context);
+}
+```
+
+#### Interface
+
 
 
 ### MLIR Partial Lowering + Lowering to LLVM
