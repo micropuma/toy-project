@@ -187,18 +187,85 @@ endif ()
 ![](/mlir-toy/png/Outline.png "toycompiler的流程图")
 
 
-### Toy Parser
-教程自带Toy语言的Lexer和Parser，是基础的**手写递归下降**
+### Toy Parser + MLIRGen
+> Lexer + Parser + MLIRGen对于toy compiler而言，是前端，其作用是先词法分析`.toy`文件（`.mlir`文件不用这整个步骤），然后语法分析出AST，再基于AST转换成MLIR IR形式。
 
-### Dialect+Operation+MLIRGen
-> 这部分重点完成：从Toy parser出来的ast树代码生成mlir中间表示形式。重点是MLIRGen的代码编写。
+* Lexer：手写的最基本的lexer，toy language默认按照空格划分，比c lexer简单
+* Parser：手写递归下降，生成AST树（std::unique_ptr<>树状结构）。
+* MLIRGen：代码生成MLIR ir形式代码。
+
+#### 入口函数
+```cpp
+// Handle '.toy' input to the compiler.
+if (inputType != InputType::MLIR &&!llvm::StringRef(inputFilename).ends_with(".mlir")) {
+  auto moduleAST = parseInputFile(inputFilename);
+  if (!moduleAST)
+    return 6;
+  module = mlirGen(context, *moduleAST);
+  return !module ? 1 : 0;
+}
+```
+上述是针对`.toy`文件的parse+codegen过程。`parseInputFile`是LEXER+PARSER。`mlirGen`是代码生成部分。对于前端感兴趣，可以阅读这两个函数的具体实现。
+```cpp
+// Otherwise, the input is '.mlir'.
+llvm::ErrorOr<std::unique_ptr<llvm::MemoryBuffer>> fileOrErr = llvm::MemoryBuffer::getFileOrSTDIN(inputFilename);
+if (std::error_code ec = fileOrErr.getError()) {
+  llvm::errs() << "Could not open input file: " << ec.message() << "\n";
+  return -1;
+}
+
+// Parse the input mlir.
+llvm::SourceMgr sourceMgr;
+sourceMgr.AddNewSourceBuffer(std::move(*fileOrErr), llvm::SMLoc());
+module = mlir::parseSourceFile<mlir::ModuleOp>(sourceMgr, &context);
+if (!module) {
+  llvm::errs() << "Error can't load file " << inputFilename << "\n";
+  return 3;
+}
+return 0;
+```
+这是针对`mlir ir`文件的操作，是mlir处理IR并生成MLIR module的标准化操作。对于`SourceMgr`等，为llvm处理文本的封装结构。
+
+#### MLIR Gen
+> 这是前端的重点部分，涉及使用mlir提供的builder类来构造mlir module结构。后续无论是pass，transform还是lowering操作，要想复用mlir提供的构件，均需要基于mlir的**moduleOp**这个结构。简单的builder sample可以看`gen.cpp`文件，该文件涉及如何生成一个10位数组sum add操作的mlir ir表示。    
+
+mlirgen中，`class MLIRGen`是interface class，而真正的实现是`MLIRGenImpl`。重点关注于`MLIRGenImpl`类的实现：
+```cpp
+/// A "module" matches a Toy source file: containing a list of functions.
+mlir::ModuleOp theModule;
+
+/// The builder is a helper class to create IR inside a function. The builder
+/// is stateful, in particular it keeps an "insertion point": this is where
+/// the next operations will be introduced.
+mlir::OpBuilder builder;
+
+/// The symbol table maps a variable name to a value in the current scope.
+/// Entering a function creates a new scope, and the function arguments are
+/// added to the mapping. When the processing of a function is terminated, the
+/// scope is destroyed and the mappings created in this scope are dropped.
+llvm::ScopedHashTable<StringRef, mlir::Value> symbolTable;
+```
+上述是`MLIRGenImpl`类的private属性。实现了：（1）一个OpBuilder来辅助生成IR structure，其中，OpBuilder本质是状态机，可以更改insertionPoint的位置。（2）moduleOp是整个IR的最外层，可以参考https://mlir.llvm.org/docs/Tutorials/UnderstandingTheIRStructure/.
+
+为了理解OpBuilder的工作原理，仔细阅读源码即可。
+![alt text](image.png)
+MLIRGen有一个关键点：`builder.create<MulOp>(location, lhs, rhs)`中的MulOp操作。这个操作可以使MLIR自带Dialect中定义的，也可以是自行定义的。本project定义一个dly dialect。具体How to write a Dialect参见下一章。
+
+### Dialect+Operation
+> 这部分重点完成：如何利用ODS工具，编写Dialect和Operation代码。理解tablegen工具自动生成的cpp文件。学会利用cmake组织ODS工具代码。
+
 
 ### MLIR Pass + PatternRewrite + Interface
+> 官方tutorial介绍了两种pass的编写方式。一种是针对于特定operation的pass，另一种是基于通用pass interface的pass编写。
+
+* 针对于特定Operation的优化：
+  > transposeOp(transposeOp)
+* 基于PassInterface的优化：  
+  > inline -> shapeInference -> 运用Canonicalize Pass，DCE Pass等，构成pass pipeline
+
 
 ### MLIR Partial Lowering + Lowering to LLVM
-
-
-### Add an operation
+> 这部分是要将mlir ir lower到底层代码，体现了MLIR相比LLVM的最大优势，即multilevel。通过现将MLIR IR lower到affine dialect，保留IR中的循环结构（LLVM的做法是直接lower到LLVM的IR上，为SSA线性结构，对于LOOP的分析增加困难。**对于ML任务而言，LOOP的循环优化分析是大头，mlir的提出也是为了增加分析优化的灵活度**）。  
 
 ## References
 1. https://github.com/KEKE046/mlir-tutorial(mlir tutorial部分重点参考此文档)
