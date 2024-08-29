@@ -59,6 +59,8 @@ struct ShapeInferencePass
   void runOnOperation() override {
     auto f = getOperation();
 
+    // RankedType: Known rank but unknown dimensions tensor<? x ? x ? x ? x f32>
+    // UnrankedType: tensor<*xf32>
     // Populate the worklist with the operations that need shape inference:
     // these are operations that return a dynamic shape.
     llvm::SmallPtrSet<mlir::Operation *, 16> opWorklist;
@@ -81,6 +83,7 @@ struct ShapeInferencePass
 
       // Ask the operation to infer its output shapes.
       LLVM_DEBUG(llvm::dbgs() << "Inferring shape for: " << *op << "\n");
+      // 判断operation是否支持shapeinference
       if (auto shapeOp = dyn_cast<ShapeInference>(op)) {
         shapeOp.inferShapes();
       } else {
