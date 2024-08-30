@@ -191,7 +191,7 @@ int loadAndProcessMLIR(mlir::MLIRContext &context,
 
   // Apply any generic pass manager command line options and run the pipeline.
   // apply print def use pass
-  pm.addPass(mlir::toy::createTestPrintDefUsePass());
+  // pm.addPass(mlir::toy::createTestPrintDefUsePass());
 
   if (mlir::failed(pm.run(*module)))
     return 4;
