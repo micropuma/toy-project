@@ -248,7 +248,7 @@ llvm::ScopedHashTable<StringRef, mlir::Value> symbolTable;
 上述是`MLIRGenImpl`类的private属性。实现了：（1）一个OpBuilder来辅助生成IR structure，其中，OpBuilder本质是状态机，可以更改insertionPoint的位置。（2）moduleOp是整个IR的最外层，可以参考https://mlir.llvm.org/docs/Tutorials/UnderstandingTheIRStructure/.
 
 为了理解OpBuilder的工作原理，仔细阅读源码即可。
-![alt text](image.png)
+![alt text](/mlir-toy/png/image.png)
 MLIRGen有一个关键点：`builder.create<MulOp>(location, lhs, rhs)`中的MulOp操作。这个操作可以使MLIR自带Dialect中定义的，也可以是自行定义的。本project定义一个dly dialect。具体How to write a Dialect参见下一章。
 
 ### Dialect+Operation
