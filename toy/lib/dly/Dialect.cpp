@@ -162,6 +162,44 @@ static void printBinaryOp(mlir::OpAsmPrinter &printer, mlir::Operation *op) {
 }
 
 //===----------------------------------------------------------------------===//
+// MatMulOp
+//===----------------------------------------------------------------------===//
+void MatmulOp::build(mlir::OpBuilder &builder,mlir::OperationState &state,
+  mlir::Value lhs,mlir::Value rhs){
+  state.addTypes(UnrankedTensorType::get(builder.getF64Type()));
+  state.addOperands({lhs,rhs});
+}
+
+// Support customized parser and printer
+mlir::ParseResult MatmulOp::parse(mlir::OpAsmParser &parser,
+                               mlir::OperationState &result) {
+  return parseBinaryOp(parser, result);
+}
+
+void MatmulOp::print(mlir::OpAsmPrinter &p) { printBinaryOp(p, *this); }
+
+// 所有的operation都要支持shape inference
+// Matmul的shape应该是<A,B> X <B,C> -> <A,C>
+void MatmulOp::inferShapes() { 
+  auto lhs = getOperand(0);
+  auto rhs = getOperand(1);
+
+  // 获取左右的shape
+  auto lhsShape = llvm::cast<RankedTensorType>(lhs.getType()).getShape();
+  auto rhsShape = llvm::cast<RankedTensorType>(rhs.getType()).getShape();
+
+  SmallVector<int64_t, 2> dims;   // dimension记录，是二维数组
+  dims.push_back(lhsShape[0]);
+  dims.push_back(rhsShape[1]);
+
+  // 构建新的rankedtensor type
+  auto elementType = llvm::cast<RankedTensorType>(lhs.getType()).getElementType();
+  auto rankedType = RankedTensorType::get(dims, elementType);
+
+  getResult().setType(rankedType);
+};
+
+//===----------------------------------------------------------------------===//
 // ConstantOp
 //===----------------------------------------------------------------------===//
 

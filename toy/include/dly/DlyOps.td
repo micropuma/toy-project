@@ -249,6 +249,31 @@ def MulOp : Dly_Op<"mul",
   ];
 }
 
+// matmul support canonicalization and pure trait, which means 
+// it is speculative and doesn't touch memory
+def MatmulOp : Dly_Op<"Matmul", 
+  [Pure, DeclareOpInterfaceMethods<ShapeInferenceOpInterface>]> {
+  let summary = "2D array multiplication multiplication operation";
+  let description = [{
+    The "matmul" operation performs matrix multiplication between two
+    tensors. The shapes of the tensor operands are expected to match.
+  }];
+
+  let arguments = (ins F64Tensor:$lhs, F64Tensor:$rhs);
+  let results = (outs F64Tensor);
+
+  // Indicate that the operation has a custom parser and printer method.
+  let hasCustomAssemblyFormat = 1;
+
+  // Allow building a MulOp with from the two input operands.
+  let builders = [
+    OpBuilder<(ins "Value":$lhs, "Value":$rhs)>
+  ];
+
+  // 自定义标准化，将matmul(matmul(A, B), C) -> matmul(A, matmul(B, C))
+  let hasCanonicalizer = 1;
+}
+
 //===----------------------------------------------------------------------===//
 // PrintOp
 //===----------------------------------------------------------------------===//

@@ -10,7 +10,7 @@
                 "-emit",
                 "mlir-llvm",
                 "--opt",
-                "/home/douliyang/large/mlir-workspace/toy-project/test/toy/affine-lowering.mlir"
+                "/home/douliyang/large/mlir-workspace/toy-project/test/toy/shape_inference.mlir"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -25,7 +25,30 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "build"
+        },
+        {
+            "name": "Debug expansion",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/bin/dlyc", // 替换为你的可执行文件路径
+            "args": [
+                "${workspaceFolder}/tutorial/canonicalize.toy",
+                "--emit=mlir",
+                "-opt"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
         }
     ]
 }

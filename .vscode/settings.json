@@ -3,7 +3,7 @@
         "args": [
             "-emit=mlir-llvm",
             "--opt",
-            "/home/douliyang/large/mlir-workspace/toy-project/test/toy/invalid.mlir"
+            "/home/douliyang/large/mlir-workspace/toy-project/test/toy/shape_inference.mlir"
         ]
     }
 }

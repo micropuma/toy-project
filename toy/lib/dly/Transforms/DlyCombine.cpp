@@ -10,6 +10,31 @@ namespace {
 #include "dly/DlyCombine.h.inc"
 } // namespace
 
+// 转换matmul(matmul(A,B),C) -> matmul(A,matmul(B,C))
+struct PermutateMatmul : public mlir::OpRewritePattern<MatmulOp> {
+    PermutateMatmul(mlir::MLIRContext *context) : OpRewritePattern<MatmulOp>(context, /*benefit=*/1) {}
+
+    mlir::LogicalResult matchAndRewrite(MatmulOp op, mlir::PatternRewriter &rewriter) const override {\
+        // 获取matmul op的左右两个操作
+        auto lhs = op.getOperand(0);
+        auto rhs = op.getOperand(1);
+
+        // 判断左边的op的是否是一个matmul的op
+        auto matmul_lhs = llvm::dyn_cast<MatmulOp>(lhs.getDefiningOp());
+        if (!matmul_lhs) {
+            return failure();    // 提前终止，match and rewrite失败
+        } else {
+            // 生成 BxC
+            MatmulOp BXC = rewriter.create<MatmulOp>(op.getLoc(), matmul_lhs.getOperand(1), rhs);
+            // 生成 Ax(BxC)
+            MatmulOp AXBC = rewriter.create<MatmulOp>(op.getLoc(), matmul_lhs.getOperand(0), BXC);
+            rewriter.replaceOp(op, AXBC);
+        }
+
+        return success();
+    }
+}; 
+
 /// write a single rewrite pattern to handle transpose(transpose(x)) -> x
 struct SimplifyRedundantTranspose : public mlir::OpRewritePattern<TransposeOp> {
     /// We register this pattern to match every toy.transpose in the IR.
@@ -47,6 +72,12 @@ void TransposeOp::getCanonicalizationPatterns(RewritePatternSet &results, MLIRCo
 /// that they can be picked up by the Canonicalization framework.
 void ReshapeOp::getCanonicalizationPatterns(RewritePatternSet &results,
                                             MLIRContext *context) {
-  results.add<ReshapeReshapeOptPattern, RedundantReshapeOptPattern,
+    results.add<ReshapeReshapeOptPattern, RedundantReshapeOptPattern,
               FoldConstantReshapeOptPattern>(context);
+}
+
+/// Register out patterns for rewrite by the Canonicalization framework.
+void MatmulOp::getCanonicalizationPatterns(RewritePatternSet &results,
+                                            MLIRContext *context) {
+    results.add<PermutateMatmul>(context);
 }
