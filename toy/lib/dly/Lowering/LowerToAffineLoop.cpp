@@ -49,6 +49,7 @@ using namespace mlir;
 
 /// Convert the given RankedTensorType into the corresponding MemRefType.
 /// 将tensor这个抽象类型，转换成实际的memref。
+/// 十分常用的辅助函数
 static MemRefType convertTensorToMemRef(RankedTensorType type) {
   return MemRefType::get(type.getShape(), type.getElementType());
 }
@@ -320,6 +321,79 @@ struct TransposeOpLowering : public ConversionPattern {
   }
 };
 
+//===----------------------------------------------------------------------===//
+// ToyToAffine RewritePatterns: Matmul Operations
+//===----------------------------------------------------------------------===//
+
+// 添加必要的头文件
+#include "mlir/Dialect/Affine/IR/AffineOps.h"
+#include "mlir/IR/BuiltinTypes.h"
+
+using namespace mlir;
+using namespace mlir::affine;
+
+static void lowerOpToLoopsMatmul(Operation *op, ValueRange operands, PatternRewriter &rewriter,
+                                 LoopIterationFn processIteration) {
+  auto tensorType = llvm::cast<RankedTensorType>(*op->result_type_begin());
+  auto loc = op->getLoc();
+  auto memRefType = convertTensorToMemRef(tensorType);
+  auto alloc = insertAllocAndDealloc(memRefType, loc, rewriter);
+  
+  SmallVector<int64_t, 4> lowerBounds(tensorType.getRank(), 0);
+  SmallVector<int64_t, 4> steps(tensorType.getRank(), 1);
+  
+  auto dim = mlir::cast<RankedTensorType>(op->getOperand(0).getType()).getShape()[1];
+  SmallVector<int64_t, 1> dimV{dim};
+
+  buildAffineLoopNest(rewriter, loc, lowerBounds, tensorType.getShape(), steps,
+    [&](OpBuilder &nestedBuilder, Location loc, ValueRange ivs) {
+      SmallVector<Value, 2> setZeroIvs(ivs);
+      auto loadRes = rewriter.create<AffineLoadOp>(loc, alloc, setZeroIvs);
+      Value valueToStore = rewriter.create<arith::SubFOp>(loc, loadRes, loadRes);
+      rewriter.create<AffineStoreOp>(loc, valueToStore, alloc, setZeroIvs);
+
+      SmallVector<int64_t, 4> innerLowerBounds{0};
+      SmallVector<int64_t, 4> innerSteps{1};
+      ValueRange resultIvs = ivs;
+      SmallVector<Value, 3> forIvs(ivs.begin(), ivs.end());
+
+      buildAffineLoopNest(rewriter, loc, innerLowerBounds, dimV, innerSteps,
+        [&](OpBuilder &innerBuilder, Location loc, ValueRange innerIvs) {
+          forIvs.push_back(innerIvs[0]);
+          Value valueToAdd = processIteration(innerBuilder, operands, forIvs);
+          auto loadResult = innerBuilder.create<AffineLoadOp>(loc, alloc, resultIvs);
+          Value newValue = innerBuilder.create<arith::AddFOp>(loc, loadResult, valueToAdd);
+          innerBuilder.create<AffineStoreOp>(loc, newValue, alloc, resultIvs);
+          forIvs.pop_back(); // Clean up for next iteration
+        });
+    });
+  rewriter.replaceOp(op, alloc);
+}
+
+struct MatmulOpLowering : public ConversionPattern {
+  MatmulOpLowering(MLIRContext *ctx)
+    : ConversionPattern(toy::MatmulOp::getOperationName(), 1, ctx) {}
+
+  LogicalResult matchAndRewrite(Operation *op, ArrayRef<Value> operands,
+                               ConversionPatternRewriter &rewriter) const final {
+    auto loc = op->getLoc();
+    lowerOpToLoopsMatmul(op, operands, rewriter,
+      [loc](OpBuilder &builder, ValueRange memRefOperands, ValueRange loopIvs) -> Value {
+        toy::MatmulOpAdaptor MatmulAdaptor(memRefOperands);
+        SmallVector<Value, 2> LhsIvs{loopIvs[0], loopIvs[2]};
+        SmallVector<Value, 2> RhsIvs{loopIvs[2], loopIvs[1]};
+        
+        Value lhs = MatmulAdaptor.getLhs();
+        Value rhs = MatmulAdaptor.getRhs();
+        
+        auto loadedLhs = builder.create<AffineLoadOp>(loc, lhs, LhsIvs);
+        auto loadedRhs = builder.create<AffineLoadOp>(loc, rhs, RhsIvs);
+        return builder.create<arith::MulFOp>(loc, loadedLhs, loadedRhs);
+      });
+    return success();
+  }
+};
+
 } // namespace
 
 //===----------------------------------------------------------------------===//
@@ -370,9 +444,10 @@ void DlyToAffineLoweringPass::runOnOperation() {
 
   // Now that the conversion target has been defined, we just need to provide
   // the set of patterns that will lower the Toy operations.
+  // 添加Matmul operation的lowering操作
   RewritePatternSet patterns(&getContext());
   patterns.add<AddOpLowering, ConstantOpLowering, FuncOpLowering, MulOpLowering,
-               PrintOpLowering, ReturnOpLowering, TransposeOpLowering>(
+               PrintOpLowering, ReturnOpLowering, TransposeOpLowering, MatmulOpLowering>(
       &getContext());
 
   // With the target and rewrite patterns defined, we can now attempt the
